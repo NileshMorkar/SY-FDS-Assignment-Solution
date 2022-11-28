@@ -57,7 +57,7 @@ int main()
     char A[30],B[30];
     cout<<"Enter InFix Expression ==> ";
     cin>>A;
-    s.push('(');
+    //s.push('(');
     for(i=0;A[i];i++)
     {
         if(A[i]>='A' && A[i]<='Z')
@@ -68,11 +68,14 @@ int main()
         else if(A[i]=='(')
             s.push('(');
         else if(A[i]==')')
+        {
             while(s.view()!='(')
             {
                 B[j]=s.pop();
                 j++;
             }    
+            s.pop();
+        }
         else if(A[i]=='*'||A[i]=='/')
         {
             while(s.view()=='*'||s.view()=='/')
@@ -92,12 +95,26 @@ int main()
             s.push(A[i]);
         }
     }
-    while(s.view()!='(')
+    while(s.isEmpty()!=true)
     {
         B[j]=s.pop();
         j++;
     }
-    B[j]='\0';
+    B[j--]='\0';
     cout<<"PostFix Expression ==> "<<B;
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
