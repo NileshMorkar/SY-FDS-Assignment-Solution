@@ -1,5 +1,6 @@
 #include<iostream>
 #include<stdlib.h>
+#include<math.h>
 using namespace std;
 int EvaluatePostFix(char B[]);
 template<class X>
@@ -66,8 +67,8 @@ int main()
             B[j]=A[i];
             j++;
         }
-        else if(A[i]=='(')
-            s.push('(');
+        else if(A[i]=='(' || A[i]=='^')
+            s.push(A[i]);
         else if(A[i]==')')
         {
             while(s.view()!='(')
@@ -132,6 +133,9 @@ int EvaluatePostFix(char B[])
                     break;
                 case '/':
                     S.push(n2/n1);
+                    break;
+                case '^':
+                    S.push((int)pow(n2,n1));
                     break;
             }
         }
