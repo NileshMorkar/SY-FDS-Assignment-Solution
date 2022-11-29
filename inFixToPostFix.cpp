@@ -1,18 +1,20 @@
 #include<iostream>
 #include<stdlib.h>
 using namespace std;
+int EvaluatePostFix(char B[]);
+template<class X>
 class stack
 {
     private:
         int top;
         int capacity;
-        char *array;
+        X *array;
     public:
         stack(int cap)
         {
             top=-1;
             capacity=cap;
-            array=(char *)malloc(sizeof(char)*capacity);
+            array=(X *)malloc(sizeof(X)*capacity);
         }
         bool isEmpty()
         {
@@ -22,7 +24,7 @@ class stack
         {
             return capacity-1==top;
         }
-        void push(char c)
+        void push(X c)
         {
             if(isFull())
                 cout<<"Stack Is Full\n";
@@ -31,8 +33,7 @@ class stack
                 top++;
                 array[top]=c;
             }
-        }
-        char pop()
+        }X pop()
         {
             if(isEmpty())
             {
@@ -45,7 +46,7 @@ class stack
                 return array[top+1];
             }
         }
-        char view()
+        X view()
         {
             return array[top];
         }
@@ -53,14 +54,14 @@ class stack
 int main()
 {
     int i,j=0;
-    stack s(25);
+    stack <char>s(25);
     char A[30],B[30];
     cout<<"Enter InFix Expression ==> ";
     cin>>A;
     //s.push('(');
     for(i=0;A[i];i++)
     {
-        if(A[i]>='A' && A[i]<='Z')
+        if(A[i]>='1' && A[i]<='9')
         {
             B[j]=A[i];
             j++;
@@ -102,19 +103,38 @@ int main()
     }
     B[j--]='\0';
     cout<<"PostFix Expression ==> "<<B;
+    cout<<"\nResult==>"<<EvaluatePostFix(B);
+    
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int EvaluatePostFix(char B[])
+{
+    int i,n1,n2;
+    stack <int>S(25);
+    for(i=0;B[i];i++)
+    {
+        if(isdigit(B[i]))
+            S.push(B[i]-48);
+        else
+        {
+            n1=S.pop();
+            n2=S.pop();
+            switch(B[i])
+            {
+                case '+':
+                    S.push(n2+n1);
+                    break;
+                case '-':
+                    S.push(n2-n1);
+                    break;
+                case '*':
+                    S.push(n2*n1);
+                    break;
+                case '/':
+                    S.push(n2/n1);
+                    break;
+            }
+        }
+    }
+    return S.pop();
+}
